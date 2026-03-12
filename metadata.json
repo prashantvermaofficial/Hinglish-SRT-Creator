@@ -1,0 +1,7 @@
+{
+  "name": "Hinglish SRT Creator",
+  "description": "Convert your audio files directly into Hinglish SRT subtitle files using AI transcription and translation.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
