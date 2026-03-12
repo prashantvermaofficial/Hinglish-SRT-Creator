@@ -1,6 +1,6 @@
 {
   "name": "Hinglish SRT Creator",
-  "description": "Convert your audio files directly into Hinglish SRT subtitle files using AI transcription and translation.",
+  "description": "AI-powered tool to convert audio files into Romanized Hinglish SRT subtitles using Gemini 3 Flash. Perfect for modern Indian content creators.",
   "requestFramePermissions": [
     "microphone"
   ]

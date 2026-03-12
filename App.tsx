@@ -3,6 +3,19 @@ import React, { useState, useRef } from 'react';
 import { Button, Card } from './components/ui-components';
 import { generateHinglishSrt } from './services/geminiService';
 import { FileInfo, SrtGenerationState } from './types';
+import { 
+  Mic, 
+  Upload, 
+  Music, 
+  X, 
+  AlertCircle, 
+  Download, 
+  Copy, 
+  Check, 
+  RefreshCw,
+  FileText,
+  Sparkles
+} from 'lucide-react';
 
 const App: React.FC = () => {
   const [file, setFile] = useState<FileInfo | null>(null);
@@ -104,15 +117,13 @@ const App: React.FC = () => {
         {/* Header Section */}
         <div className="text-center space-y-4">
           <div className="inline-flex items-center justify-center p-3 bg-indigo-100 rounded-2xl mb-4">
-            <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
-            </svg>
+            <Mic className="w-8 h-8 text-indigo-600" />
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
             Hinglish <span className="text-indigo-600">SRT Creator</span>
           </h1>
           <p className="text-lg text-slate-600 max-w-lg mx-auto">
-            Convert your audio into Romanized Hinglish subtitles effortlessly.
+            Convert your audio into Romanized Hinglish subtitles effortlessly using Gemini AI.
           </p>
         </div>
 
@@ -124,9 +135,7 @@ const App: React.FC = () => {
                 className="border-2 border-dashed border-slate-200 rounded-2xl p-12 flex flex-col items-center justify-center space-y-4 hover:border-indigo-400 hover:bg-indigo-50/50 transition-all cursor-pointer group"
               >
                 <div className="p-4 bg-slate-50 rounded-full group-hover:bg-white transition-colors">
-                  <svg className="w-10 h-10 text-slate-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                  </svg>
+                  <Upload className="w-10 h-10 text-slate-400 group-hover:text-indigo-500" />
                 </div>
                 <div className="text-center">
                   <p className="text-lg font-medium text-slate-700">Select Audio File</p>
@@ -145,9 +154,7 @@ const App: React.FC = () => {
                 <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-indigo-100 rounded-xl">
-                      <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
-                      </svg>
+                      <Music className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900 truncate max-w-[150px] sm:max-w-md">{file.name}</p>
@@ -155,15 +162,14 @@ const App: React.FC = () => {
                     </div>
                   </div>
                   <Button variant="ghost" onClick={reset} disabled={state.isProcessing}>
+                    <X className="w-4 h-4 mr-2" />
                     Remove
                   </Button>
                 </div>
 
                 {state.error && (
                   <div className="p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 flex items-center gap-3">
-                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
                     <span>{state.error}</span>
                   </div>
                 )}
@@ -174,7 +180,17 @@ const App: React.FC = () => {
                     onClick={processAudio} 
                     isLoading={state.isProcessing}
                   >
-                    {state.isProcessing ? state.progress : "Generate Hinglish SRT"}
+                    {state.isProcessing ? (
+                      <>
+                        <RefreshCw className="w-5 h-5 animate-spin mr-2" />
+                        {state.progress}
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5 mr-2" />
+                        Generate Hinglish SRT
+                      </>
+                    )}
                   </Button>
                 )}
 
@@ -182,31 +198,26 @@ const App: React.FC = () => {
                   <div className="space-y-4 animate-in zoom-in-95 duration-300">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       <Button className="w-full py-4" onClick={downloadSrt}>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
+                        <Download className="w-5 h-5 mr-2" />
                         Download SRT
                       </Button>
                       
                       <Button variant="secondary" className="w-full py-4" onClick={copyToClipboard}>
                         {isCopied ? (
                           <>
-                            <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
+                            <Check className="w-5 h-5 text-green-500 mr-2" />
                             Copied!
                           </>
                         ) : (
                           <>
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 8h3m-3 4h3"></path>
-                            </svg>
+                            <Copy className="w-5 h-5 mr-2" />
                             Copy Content
                           </>
                         )}
                       </Button>
-
+ 
                       <Button variant="ghost" className="w-full py-4 sm:col-span-2 lg:col-span-1" onClick={reset}>
+                        <RefreshCw className="w-5 h-5 mr-2" />
                         Start Over
                       </Button>
                     </div>
